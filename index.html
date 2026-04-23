@@ -1341,20 +1341,25 @@ if (VoiceRecog) {
   recognition = new VoiceRecog();
   recognition.continuous = false;
   recognition.interimResults = false;
+  recognition.lang = 'en-US';
 }
 
 let voiceState = 0;
+let currentUtterance = null; // prevents garbage collection bugs in Web Speech API
+let listenContext = null;
 
 function speak(text, callback) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  if (callback) utterance.onend = callback;
-  window.speechSynthesis.speak(utterance);
+  currentUtterance = new SpeechSynthesisUtterance(text);
+  currentUtterance.rate = 1.05; // slightly faster, sounds more natural
+  if (callback) currentUtterance.onend = callback;
+  window.speechSynthesis.speak(currentUtterance);
 }
 
 function stopVoice() {
   voiceState = 0;
+  listenContext = null;
   if(recognition) recognition.stop();
   if(window.speechSynthesis) window.speechSynthesis.cancel();
   const ov = document.getElementById('voice-overlay');
@@ -1365,6 +1370,7 @@ function stopVoice() {
 
 function listenFor(promptText, stateNum, processCallback) {
   voiceState = stateNum;
+  listenContext = { promptText, stateNum, processCallback };
   document.getElementById('voice-text').innerText = promptText;
   
   speak(promptText, () => {
@@ -1376,7 +1382,15 @@ function listenFor(promptText, stateNum, processCallback) {
     const btn = document.getElementById('btn-voice');
     if(btn) btn.classList.add('listening');
     
+    // Clear old handlers to prevent ghost triggers
+    recognition.onresult = null;
+    recognition.onerror = null;
+    recognition.onend = null;
+    
+    let handled = false;
+    
     recognition.onresult = (e) => {
+      handled = true;
       let result = e.results[0][0].transcript.toLowerCase().trim();
       if (result.includes("stop") || result.includes("cancel") || result.includes("quit")) {
         speak("Voice navigator canceled."); stopVoice(); return;
@@ -1386,15 +1400,25 @@ function listenFor(promptText, stateNum, processCallback) {
     
     recognition.onerror = (e) => {
       console.log("Voice Error:", e.error);
-      if (e.error !== 'no-speech') {
-          speak("I didn't catch that. Please try again.", () => {
-             listenFor(promptText, stateNum, processCallback);
+      handled = true;
+      if (e.error === 'no-speech' || e.error === 'aborted') {
+          // Restart silently if they just didn't speak in time
+          if (voiceState === stateNum && listenContext) {
+             setTimeout(() => { try{ recognition.start(); }catch(err){}}, 500);
+          }
+      } else {
+          speak("I didn't catch that clearly. Please try again.", () => {
+             if (voiceState === stateNum && listenContext) listenFor(promptText, stateNum, processCallback);
           });
       }
     };
     
     recognition.onend = () => {
-      if(btn) btn.classList.remove('listening');
+      if(btn && voiceState === 0) btn.classList.remove('listening');
+      // If it ends without triggering error or result, restart it silently
+      if (!handled && voiceState === stateNum) {
+         try{ recognition.start(); }catch(err){}
+      }
     };
     
     try { recognition.start(); } catch(e){}
@@ -1456,12 +1480,18 @@ function askElection() {
 
 function askAge() {
   listenFor("Please state your age as a number.", 3, (res) => {
-    let age = parseInt(res.replace(/[^0-9]/g, ''));
-    if(age > 0) {
-      document.getElementById('inp-age').value = age;
+    // Attempt basic word-to-number parse ("eighteen" -> "18", etc.) or use digits
+    const words = {"eighteen":18,"nineteen":19,"twenty":20,"thirty":30,"forty":40,"fifty":50,"sixty":60,"seventy":70,"eighty":80};
+    let parsedInt = parseInt(res.replace(/[^0-9]/g, ''));
+    if (isNaN(parsedInt)) {
+       for(let w in words) { if(res.includes(w)) parsedInt = words[w]; }
+    }
+    
+    if(parsedInt > 0) {
+      document.getElementById('inp-age').value = parsedInt;
       askRegistered();
     } else {
-      askAge();
+      speak("I couldn't understand the number. Please try again.", () => askAge());
     }
   });
 }
@@ -1471,7 +1501,7 @@ function askRegistered() {
     if(res.includes("yes") || res.includes("yeah") || res.includes("yep")) { clickRcVal('rg-registered', 'yes'); askVoterId(); }
     else if(res.includes("no") || res.includes("nope")) { clickRcVal('rg-registered', 'no'); askVoterId(); }
     else if(res.includes("sure") || res.includes("don't know")) { clickRcVal('rg-registered', 'unsure'); askVoterId(); }
-    else { askRegistered(); }
+    else { speak("Please say Yes, No, or Not Sure.", () => askRegistered()); }
   });
 }
 
@@ -1480,7 +1510,7 @@ function askVoterId() {
     if(res.includes("yes") || res.includes("yeah")) { clickRcVal('rg-voterid', 'yes'); askStation(); }
     else if(res.includes("no") || res.includes("nope")) { clickRcVal('rg-voterid', 'no'); askStation(); }
     else if(res.includes("applied") || res.includes("process")) { clickRcVal('rg-voterid', 'applied'); askStation(); }
-    else { askVoterId(); }
+    else { speak("Please say Yes, No, or Applied.", () => askVoterId()); }
   });
 }
 
@@ -1488,7 +1518,7 @@ function askStation() {
   listenFor("Do you know where your polling station is located? Say Yes or No.", 6, (res) => {
     if(res.includes("yes") || res.includes("yeah")) { clickRcVal('rg-station', 'yes'); askLocation(); }
     else if(res.includes("no") || res.includes("nope")) { clickRcVal('rg-station', 'no'); askLocation(); }
-    else { askStation(); }
+    else { speak("Please answer Yes or No.", () => askStation()); }
   });
 }
 
