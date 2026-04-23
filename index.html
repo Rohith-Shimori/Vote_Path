@@ -469,6 +469,82 @@ html { font-size: 16px; }
 .v-bar:nth-child(4) { animation-delay: 0.6s; height: 16px; }
 @keyframes voiceWave { 0% { height: 6px; } 100% { height: 24px; } }
 .voice-text { font-size: 0.95rem; }
+
+/* URGENCY BANNER */
+.urgency-banner { display:none; background:linear-gradient(90deg,rgba(239,68,68,0.12),rgba(245,158,11,0.08)); border-bottom:1px solid rgba(239,68,68,0.3); padding:10px 28px; text-align:center; font-size:0.82rem; font-weight:600; color:#fca5a5; position:fixed; top:58px; left:0; right:0; z-index:99; backdrop-filter:blur(10px); animation:slideDown 0.4s ease; }
+.urgency-banner.amber { background:linear-gradient(90deg,rgba(245,158,11,0.12),rgba(245,158,11,0.05)); border-color:rgba(245,158,11,0.3); color:#fcd34d; }
+.urgency-banner.show { display:block; }
+@keyframes slideDown { from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1} }
+.urgency-banner .ub-close { background:none; border:none; color:inherit; cursor:pointer; margin-left:14px; font-size:1.1rem; opacity:0.6; transition:opacity 0.2s; }
+.urgency-banner .ub-close:hover { opacity:1; }
+
+/* SCORE BREAKDOWN */
+.score-breakdown { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:22px; margin-bottom:20px; animation:fadeUp 0.45s ease both; animation-delay:0.08s; }
+.sb-toggle { background:none; border:none; color:var(--blue); font-family:'Manrope',sans-serif; font-size:0.82rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; padding:0; margin-bottom:12px; transition:color 0.2s; }
+.sb-toggle:hover { color:#93c5fd; }
+.sb-bars { display:grid; gap:10px; }
+.sb-row { display:flex; align-items:center; gap:12px; }
+.sb-label { font-size:0.78rem; color:var(--text-dim); min-width:120px; font-weight:500; }
+.sb-bar-track { flex:1; height:8px; background:var(--bg-raised); border-radius:4px; overflow:hidden; }
+.sb-bar-fill { height:100%; border-radius:4px; transition:width 1s cubic-bezier(0.34,1.2,0.64,1); }
+.sb-pts { font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--text-muted); min-width:50px; text-align:right; }
+
+/* PROCESS GUIDE */
+.process-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:26px; margin-bottom:20px; animation:fadeUp 0.45s ease both; animation-delay:0.22s; }
+.proc-steps { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:14px; }
+.proc-step { background:var(--bg-raised); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:16px; position:relative; overflow:hidden; transition:transform 0.2s,box-shadow 0.2s; }
+.proc-step:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(59,130,246,0.08); }
+.proc-step-num { position:absolute; top:8px; right:12px; font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:var(--border); opacity:0.5; }
+.proc-step-icon { font-size:1.3rem; margin-bottom:8px; }
+.proc-step-title { font-size:0.84rem; font-weight:700; margin-bottom:4px; color:var(--text); }
+.proc-step-desc { font-size:0.74rem; color:var(--text-dim); line-height:1.5; }
+
+/* WHAT IF MODAL */
+.modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:500; backdrop-filter:blur(4px); align-items:center; justify-content:center; }
+.modal-backdrop.show { display:flex; }
+.modal-box { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; max-width:520px; width:90%; max-height:85vh; overflow-y:auto; animation:fadeUp 0.3s ease both; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+.modal-title { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; margin-bottom:6px; }
+.modal-sub { font-size:0.82rem; color:var(--text-dim); margin-bottom:20px; }
+.modal-close { background:none; border:1px solid var(--border); color:var(--text-dim); border-radius:6px; padding:8px 18px; cursor:pointer; font-family:'Manrope',sans-serif; font-size:0.82rem; margin-top:16px; transition:all 0.15s; }
+.modal-close:hover { border-color:var(--text-muted); color:var(--text); }
+.delay-scenario { background:var(--bg-raised); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:16px; margin-bottom:10px; }
+.delay-scenario .ds-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.delay-scenario .ds-title { font-weight:700; font-size:0.88rem; }
+.delay-scenario .ds-risk { font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:3px 8px; border-radius:4px; font-weight:700; }
+.ds-risk.critical { background:rgba(239,68,68,0.15); color:#ef4444; }
+.ds-risk.high { background:rgba(239,68,68,0.1); color:#f87171; }
+.ds-risk.medium { background:rgba(245,158,11,0.1); color:#f59e0b; }
+.ds-risk.low { background:rgba(16,185,129,0.1); color:#10b981; }
+.delay-scenario .ds-body { font-size:0.78rem; color:var(--text-dim); line-height:1.5; }
+
+/* EMBEDDED MAP */
+.map-embed-wrap { border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); margin-bottom:14px; animation:fadeUp 0.4s ease both; animation-delay:0.3s; }
+.map-embed-wrap iframe { width:100%; height:300px; border:0; filter:invert(90%) hue-rotate(180deg) brightness(0.95) contrast(0.9); }
+
+/* ACTION TOOLBAR */
+.action-toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.act-btn { padding:10px 18px; border-radius:var(--radius-sm); border:1px solid var(--border); background:var(--card); color:var(--text); font-family:'Manrope',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:7px; transition:all 0.2s; }
+.act-btn:hover { border-color:var(--blue); background:var(--blue-glow); color:#93c5fd; transform:translateY(-1px); }
+.act-btn.copied { border-color:var(--green); color:var(--green); background:var(--green-glow); }
+
+/* PRINT */
+@media print {
+  body { background:#fff !important; color:#111 !important; font-size:12pt; }
+  .app-header, #btn-voice, #btn-restart, .voice-overlay, .urgency-banner,
+  .map-cta, .map-embed-wrap, .action-toolbar, .modal-backdrop,
+  #phase1, #phase2, .score-glow, .skip-link { display:none !important; }
+  #phase3 { display:block !important; opacity:1 !important; transform:none !important; padding-top:0 !important; }
+  .phase { display:block !important; }
+  .dash-wrap { padding:0 !important; max-width:100% !important; }
+  .election-bar, .score-card, .stat-card, .timeline-card, .check-card,
+  .journey-card, .insight-card, .authority-box, .process-card, .score-breakdown {
+    break-inside:avoid; border-color:#ccc !important; background:#fff !important; box-shadow:none !important; margin-bottom:12px;
+  }
+  .stat-val, .score-val, .sec-title, .ebar-name, .in-title, .proc-step-title { color:#111 !important; }
+  .stat-sub, .ebar-sub, .in-body, .ci-desc, .j-desc, .proc-step-desc { color:#444 !important; }
+  .ring-fg { stroke:#333 !important; }
+  .tl-track { min-width:auto !important; }
+}
 </style>
 </head>
 <body>
@@ -480,7 +556,7 @@ html { font-size: 16px; }
 <header class="app-header" role="banner">
   <div class="brand">
     <div class="brand-name">Vote<em>Path</em> Pro+</div>
-    <div class="brand-tag">v2.0</div>
+    <div class="brand-tag">v3.0</div>
   </div>
   <div class="header-right" style="display:flex; align-items:center;">
     <button id="btn-voice" onclick="startVoiceNavigator()" aria-label="Start Voice Navigator">🎙️ Voice Assist</button>
@@ -488,6 +564,12 @@ html { font-size: 16px; }
     <div class="header-text"><div class="live-dot"></div>Intelligent Election Navigator</div>
   </div>
 </header>
+
+<!-- URGENCY BANNER -->
+<div class="urgency-banner" id="urgency-banner" role="alert">
+  <span id="urgency-text"></span>
+  <button class="ub-close" onclick="this.parentElement.classList.remove('show')" aria-label="Dismiss">×</button>
+</div>
 
 <!-- ════════════════════════════════════════════════
      PHASE 1 — COUNTRY & ELECTION SETUP
@@ -690,7 +772,7 @@ html { font-size: 16px; }
     <div class="sec-title" style="margin-bottom:14px;">💡 Personalized Insights</div>
     <div class="insights-row" id="insights-row"></div>
 
-    <!-- MAP CTA -->
+    <!-- MAP CTA + EMBEDDED MAP -->
     <div class="map-cta">
       <div class="map-cta-text">
         <h3>📍 Find Your Polling Station</h3>
@@ -698,15 +780,47 @@ html { font-size: 16px; }
       </div>
       <div class="map-btns">
         <a class="mbtn primary" id="btn-maps" href="#" target="_blank" rel="noopener noreferrer">
-          Open Google Maps
+          Open in Google Maps ↗
         </a>
         <a class="mbtn sec" id="btn-register" href="#" target="_blank" rel="noopener noreferrer">
           Registration Portal ↗
         </a>
-        <button class="mbtn sec" id="btn-cal">📅 Add Election Date</button>
+        <button class="mbtn sec" id="btn-cal">📅 Add to Calendar</button>
       </div>
     </div>
+    <div class="map-embed-wrap" id="map-embed-wrap">
+      <iframe id="map-iframe" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
 
+    <!-- SCORE BREAKDOWN -->
+    <div class="score-breakdown" id="score-breakdown">
+      <button class="sb-toggle" onclick="document.getElementById('sb-bars').classList.toggle('hide')" aria-expanded="true">📊 Why This Score? ▾</button>
+      <div class="sb-bars" id="sb-bars"></div>
+    </div>
+
+    <!-- ELECTION PROCESS GUIDE -->
+    <div class="process-card" id="process-card">
+      <div class="sec-title">🏛️ How Voting Works in <span id="proc-country">—</span></div>
+      <div class="proc-steps" id="proc-steps"></div>
+    </div>
+
+    <!-- ACTION TOOLBAR -->
+    <div class="action-toolbar">
+      <button class="act-btn" onclick="openDelayModal()">⏱️ What If I Delay?</button>
+      <button class="act-btn" onclick="window.print()">🖨️ Print My Path</button>
+      <button class="act-btn" id="btn-copy" onclick="copySummary()">📋 Copy Summary</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHAT IF I DELAY MODAL -->
+<div class="modal-backdrop" id="delay-modal" onclick="if(event.target===this)closeDelayModal()">
+  <div class="modal-box">
+    <div class="modal-title">⏱️ What If I Delay?</div>
+    <div class="modal-sub">See how waiting affects your voting readiness and risk level.</div>
+    <div id="delay-scenarios"></div>
+    <button class="modal-close" onclick="closeDelayModal()">Close</button>
   </div>
 </div>
 
@@ -741,6 +855,60 @@ const ELECTION_TYPES = [
 ];
 
 /* ──────────────────────────────────────────────
+   ELECTION PROCESS STEPS — Per Country
+─────────────────────────────────────────────── */
+const PROCESS_STEPS = {
+  'United States': [
+    {icon:'\ud83d\udccb',title:'Check Eligibility',desc:'Confirm you are a US citizen, meet your state\u2019s age requirement, and reside in the state.'},
+    {icon:'\ud83d\udcdd',title:'Register to Vote',desc:'Register online at vote.gov, by mail, or at your local DMV. Deadlines vary by state.'},
+    {icon:'\ud83e\udeaa',title:'Get Valid ID',desc:'Some states require photo ID. Check your state\u2019s rules for acceptable identification.'},
+    {icon:'\ud83d\udccd',title:'Find Your Polling Place',desc:'Use your state election website or Google Maps to locate your assigned polling station.'},
+    {icon:'\ud83d\uddf3\ufe0f',title:'Cast Your Vote',desc:'Vote in person on Election Day, during early voting, or submit an absentee/mail ballot.'},
+    {icon:'\ud83d\udcca',title:'Track Results',desc:'Results are typically available the same night. Official certification takes several weeks.'}
+  ],
+  'India': [
+    {icon:'\ud83d\udccb',title:'Check Voter List',desc:'Verify your name on the electoral roll at voters.eci.gov.in or the Voter Helpline App.'},
+    {icon:'\ud83d\udcdd',title:'Register (Form 6)',desc:'Submit Form 6 online/offline to register. Include age proof, address proof, and a passport photo.'},
+    {icon:'\ud83e\udeaa',title:'Get EPIC Card',desc:'Collect your Electors Photo ID Card (EPIC) from the ERO office after registration approval.'},
+    {icon:'\ud83d\udccd',title:'Locate Polling Booth',desc:'Find your assigned booth using the Voter Helpline App or by checking your voter slip.'},
+    {icon:'\ud83d\uddf3\ufe0f',title:'Vote via EVM',desc:'Present ID at your booth, get marked with indelible ink, and press the button on the EVM.'},
+    {icon:'\ud83d\udcca',title:'Results & Counting',desc:'Votes are counted on the declared date. Track live results on the ECI portal.'}
+  ],
+  'United Kingdom': [
+    {icon:'\ud83d\udccb',title:'Check Eligibility',desc:'Must be a UK/Commonwealth/Irish citizen, 18+, and registered at a UK address.'},
+    {icon:'\ud83d\udcdd',title:'Register Online',desc:'Register at gov.uk/register-to-vote. You will need your National Insurance number.'},
+    {icon:'\ud83e\udeaa',title:'Photo ID Required',desc:'Bring valid photo ID (passport, driving licence, Voter Authority Certificate).'},
+    {icon:'\ud83d\udccd',title:'Check Polling Station',desc:'Your poll card will show your station. Check online if you have not received one.'},
+    {icon:'\ud83d\uddf3\ufe0f',title:'Mark Your Ballot',desc:'Vote by putting an X next to your chosen candidate with the pencil provided.'},
+    {icon:'\ud83d\udcca',title:'Results Overnight',desc:'Counting begins after polls close at 10 PM. Most results come in overnight.'}
+  ],
+  'Australia': [
+    {icon:'\ud83d\udccb',title:'Check Enrolment',desc:'Voting is compulsory. Ensure you are enrolled via the AEC website.'},
+    {icon:'\ud83d\udcdd',title:'Enrol or Update',desc:'Enrol online at aec.gov.au. Update details if you have moved address.'},
+    {icon:'\ud83d\udccd',title:'Find Polling Place',desc:'Use the AEC polling place finder. Pre-poll voting is also available.'},
+    {icon:'\ud83d\uddf3\ufe0f',title:'Number Your Ballot',desc:'You must number ALL candidates in order of preference (preferential voting).'},
+    {icon:'\ud83c\udf2d',title:'Democracy Sausage',desc:'Enjoy the tradition! Many polling places have community BBQs and cake stalls.'},
+    {icon:'\ud83d\udcb0',title:'Avoid the Fine',desc:'Failure to vote without a valid reason results in a $20+ fine from the AEC.'}
+  ],
+  'Canada': [
+    {icon:'\ud83d\udccb',title:'Check Eligibility',desc:'Must be a Canadian citizen aged 18+ on election day.'},
+    {icon:'\ud83d\udcdd',title:'Register Online',desc:'Register at elections.ca or at your polling station on election day.'},
+    {icon:'\ud83e\udeaa',title:'Prepare ID',desc:'Bring government photo ID with address, or two pieces of ID with your name.'},
+    {icon:'\ud83d\udccd',title:'Find Your Station',desc:'Check your voter information card or use the Elections Canada polling tool.'},
+    {icon:'\ud83d\uddf3\ufe0f',title:'Mark a Single X',desc:'Go behind the screen, mark one X beside your chosen candidate, fold your ballot.'},
+    {icon:'\ud83d\udcca',title:'Results Same Night',desc:'Preliminary results are available on election night via Elections Canada.'}
+  ],
+  '_default': [
+    {icon:'\ud83d\udccb',title:'Verify Eligibility',desc:'Check your country\u2019s minimum age, citizenship, and residency requirements.'},
+    {icon:'\ud83d\udcdd',title:'Register to Vote',desc:'Contact your national election commission to register and confirm your details.'},
+    {icon:'\ud83e\udeaa',title:'Get Identification',desc:'Obtain the required photo ID or voter card as specified by your electoral authority.'},
+    {icon:'\ud83d\udccd',title:'Find Your Venue',desc:'Locate your assigned polling station or voting center via the official portal.'},
+    {icon:'\ud83d\uddf3\ufe0f',title:'Cast Your Vote',desc:'Follow your country\u2019s voting procedure on election day \u2014 in person or via mail.'},
+    {icon:'\ud83d\udcca',title:'Await Results',desc:'Official results are announced by the election commission after counting.'}
+  ]
+};
+
+/* ──────────────────────────────────────────────
    STATE
 ─────────────────────────────────────────────── */
 const S = { country:'', electionType:'', profile:{}, data:null, result:null };
@@ -763,12 +931,12 @@ function renderElectionTypes() {
 
 window.onload = () => {
   renderElectionTypes();
-  // Auto-offer voice assistant after 2 seconds for visually impaired users
+  // Ask yes/no for voice assist after 3 seconds
   setTimeout(() => {
     if (window.speechSynthesis && (window.SpeechRecognition || window.webkitSpeechRecognition)) {
-      speak('Welcome to Vote Path Pro Plus. If you would like voice guided navigation, press the V key on your keyboard, or click the Voice Assist button in the top right corner.', null);
+      offerVoiceAssist();
     }
-  }, 2000);
+  }, 3000);
   // Global keyboard shortcut: press V to start voice navigator
   document.addEventListener('keydown', (e) => {
     if (e.key === 'v' || e.key === 'V') {
@@ -777,6 +945,38 @@ window.onload = () => {
     }
   });
 };
+
+function offerVoiceAssist() {
+  document.getElementById('voice-overlay').classList.add('active');
+  document.getElementById('voice-text').innerText = 'Would you like voice-guided navigation?';
+  speak('Welcome to Vote Path Pro Plus. Would you like voice-guided navigation? Say yes to start, or no to continue on your own.', () => {
+    if (!recognition) { stopVoice(); return; }
+    let answered = false;
+    recognition.onresult = (e) => {
+      answered = true;
+      let res = e.results[0][0].transcript.toLowerCase().trim();
+      if (res.includes('yes') || res.includes('yeah') || res.includes('sure') || res.includes('okay') || res.includes('start')) {
+        startVoiceNavigator();
+      } else {
+        speak('No problem. You can press the V key anytime to start voice navigation.', () => {
+          stopVoice();
+        });
+      }
+    };
+    recognition.onerror = (e) => {
+      answered = true;
+      if (e.error === 'no-speech' || e.error === 'aborted') {
+        speak('No response heard. You can press V anytime for voice navigation.', () => { stopVoice(); });
+      } else { stopVoice(); }
+    };
+    recognition.onend = () => {
+      if (!answered) {
+        speak('You can press V anytime for voice navigation.', () => { stopVoice(); });
+      }
+    };
+    try { recognition.start(); } catch(e) { stopVoice(); }
+  });
+}
 
 /* ──────────────────────────────────────────────
    UI HELPERS
@@ -1227,6 +1427,12 @@ function renderDashboard() {
     `Find official ${data.map_query} locations near ${loc || S.country} using Google Maps.`;
 
   document.getElementById('btn-cal').onclick = () => addToGCal(data);
+
+  // NEW FEATURES: Score Breakdown, Embedded Map, Process Guide, Urgency Banner
+  renderScoreBreakdown(profile, data, result);
+  renderEmbeddedMap(data.map_query, loc);
+  renderProcessGuide(S.country);
+  renderUrgencyBanner(result, data);
 }
 
 function openMapsGeo(mapQuery, locationFallback, useGPS) {
@@ -1355,6 +1561,161 @@ document.addEventListener('DOMContentLoaded', () => {
     ageEl.value = ageEl.value.replace(/[^0-9]/g,'');
   });
 });
+
+/* ──────────────────────────────────────────────
+   SCORE BREAKDOWN RENDERER
+─────────────────────────────────────────────── */
+function renderScoreBreakdown(profile, data, result) {
+  const bars = document.getElementById('sb-bars');
+  if (!result.eligible) { document.getElementById('score-breakdown').style.display='none'; return; }
+  const items = [
+    { label:'Age Eligibility', pts:40, max:40, color:'#10b981' },
+    { label:'Voter Registration', pts: profile.registered==='yes'?30 : profile.registered==='unsure'?10 : 0, max:30, color:'#3b82f6' },
+    { label:'Voter ID / Photo ID', pts: profile.voterId==='yes'?20 : profile.voterId==='applied'?8 : 0, max:20, color:'#8b5cf6' },
+    { label:'Polling Station', pts: profile.station==='yes'?10 : 0, max:10, color:'#f59e0b' },
+  ];
+  bars.innerHTML = items.map(i => `
+    <div class="sb-row">
+      <div class="sb-label">${i.label}</div>
+      <div class="sb-bar-track">
+        <div class="sb-bar-fill" style="width:${(i.pts/i.max)*100}%;background:${i.color}"></div>
+      </div>
+      <div class="sb-pts">${i.pts} / ${i.max}</div>
+    </div>`).join('');
+  // Animate bars in
+  setTimeout(() => {
+    bars.querySelectorAll('.sb-bar-fill').forEach(b => { b.style.width = b.style.width; });
+  }, 100);
+}
+
+/* ──────────────────────────────────────────────
+   PROCESS GUIDE RENDERER
+─────────────────────────────────────────────── */
+function renderProcessGuide(country) {
+  const steps = PROCESS_STEPS[country] || PROCESS_STEPS['_default'];
+  document.getElementById('proc-country').textContent = country;
+  document.getElementById('proc-steps').innerHTML = steps.map((s,i) => `
+    <div class="proc-step">
+      <div class="proc-step-num">${i+1}</div>
+      <div class="proc-step-icon">${s.icon}</div>
+      <div class="proc-step-title">${s.title}</div>
+      <div class="proc-step-desc">${s.desc}</div>
+    </div>`).join('');
+}
+
+/* ──────────────────────────────────────────────
+   URGENCY BANNER
+─────────────────────────────────────────────── */
+function renderUrgencyBanner(result, data) {
+  const banner = document.getElementById('urgency-banner');
+  const text = document.getElementById('urgency-text');
+  if (!result.eligible) { banner.classList.remove('show'); return; }
+  if (result.daysToReg > 0 && result.daysToReg <= 7) {
+    text.textContent = `⚠ URGENT: Registration closes in ${result.daysToReg} day${result.daysToReg===1?'':'s'} — Register now at ${data.registration_url}`;
+    banner.classList.remove('amber'); banner.classList.add('show');
+  } else if (result.daysToReg > 0 && result.daysToReg <= 14) {
+    text.textContent = `⏰ Registration deadline in ${result.daysToReg} days — Don't wait until the last minute`;
+    banner.classList.add('amber','show');
+  } else if (result.daysToElection > 0 && result.daysToElection <= 7) {
+    text.textContent = `🗳️ Election Day is in ${result.daysToElection} day${result.daysToElection===1?'':'s'}! Make sure you're ready.`;
+    banner.classList.add('amber','show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+/* ──────────────────────────────────────────────
+   EMBEDDED GOOGLE MAP
+─────────────────────────────────────────────── */
+function renderEmbeddedMap(mapQuery, location) {
+  const query = encodeURIComponent(mapQuery + ' in ' + location);
+  const iframe = document.getElementById('map-iframe');
+  // Using Google Maps embed URL — works without API key
+  iframe.src = `https://maps.google.com/maps?q=${query}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+}
+
+/* ──────────────────────────────────────────────
+   WHAT IF I DELAY? MODAL
+─────────────────────────────────────────────── */
+function openDelayModal() {
+  if (!S.result || !S.data) return;
+  const container = document.getElementById('delay-scenarios');
+  const scenarios = [7, 14, 30, 60];
+  const today = new Date(); today.setHours(0,0,0,0);
+  const regDate = new Date(S.data.registration_deadline);
+  const electDate = new Date(S.data.election_date);
+
+  container.innerHTML = scenarios.map(days => {
+    const futureDate = new Date(today.getTime() + days * 86400000);
+    const daysToRegThen = Math.ceil((regDate - futureDate) / 86400000);
+    const daysToElectThen = Math.ceil((electDate - futureDate) / 86400000);
+    let risk, riskClass, consequences = [];
+
+    if (daysToRegThen <= 0) {
+      risk = 'CRITICAL'; riskClass = 'critical';
+      consequences.push('Registration deadline will have PASSED — you may not be able to vote.');
+    } else if (daysToRegThen <= 7) {
+      risk = 'HIGH'; riskClass = 'high';
+      consequences.push(`Only ${daysToRegThen} day${daysToRegThen===1?'':'s'} left to register — extremely tight.`);
+    } else if (daysToRegThen <= 14) {
+      risk = 'MEDIUM'; riskClass = 'medium';
+      consequences.push(`${daysToRegThen} days remain to register — cutting it close.`);
+    } else {
+      risk = 'LOW'; riskClass = 'low';
+      consequences.push(`${daysToRegThen} days until registration deadline — still manageable.`);
+    }
+
+    if (daysToElectThen <= 0) {
+      consequences.push('Election Day will have PASSED.');
+    } else if (daysToElectThen <= 14) {
+      consequences.push(`Only ${daysToElectThen} days until Election Day.`);
+    }
+
+    if (S.profile.voterId === 'no' && days >= 14) {
+      consequences.push('Processing a new voter ID takes time — may not arrive in time.');
+    }
+
+    return `
+      <div class="delay-scenario">
+        <div class="ds-head">
+          <span class="ds-title">If you wait ${days} days...</span>
+          <span class="ds-risk ${riskClass}">${risk}</span>
+        </div>
+        <div class="ds-body">${consequences.join(' ')}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('delay-modal').classList.add('show');
+}
+
+function closeDelayModal() {
+  document.getElementById('delay-modal').classList.remove('show');
+}
+
+/* ──────────────────────────────────────────────
+   COPY SUMMARY TO CLIPBOARD
+─────────────────────────────────────────────── */
+function copySummary() {
+  if (!S.result || !S.data) return;
+  const et = ELECTION_TYPES.find(t => t.id === S.electionType) || ELECTION_TYPES[0];
+  const doneList = S.result.done.map(d => '✅ ' + d).join('\n');
+  const missingList = S.result.missing.map(m => '⚠ ' + m).join('\n');
+  const text = `🗳️ VotePath Pro+ Summary\n` +
+    `Country: ${S.country} | Election: ${et.name}\n` +
+    `Score: ${S.result.score}/100 | Status: ${S.result.status}\n` +
+    `Risk Level: ${S.result.risk}\n\n` +
+    `${doneList}\n${missingList}\n\n` +
+    `Election Day: ${fmtDate(S.data.election_date)}\n` +
+    `Registration Deadline: ${fmtDate(S.data.registration_deadline)}\n` +
+    `Authority: ${S.data.authority}\n` +
+    `ID Required: ${S.data.id_requirements}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btn-copy');
+    btn.classList.add('copied');
+    btn.innerHTML = '✓ Copied!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copy Summary'; }, 2000);
+  }).catch(() => { alert('Could not copy. Try manually selecting the text.'); });
+}
 
 /* ──────────────────────────────────────────────
    VOICE ACCESSIBLE NAVIGATOR (V.A.N.)
@@ -1551,7 +1912,7 @@ function askLocation() {
     if(!res.includes("skip") && res.length > 2) {
       document.getElementById('inp-location').value = res;
     }
-    document.getElementById('voice-text').innerText = "Processing...";
+    document.getElementById('voice-text').innerText = "Generating your VotePath...";
     goPhase3();
     
     setTimeout(() => {
@@ -1560,9 +1921,31 @@ function askLocation() {
         let st = document.getElementById('score-status') ? document.getElementById('score-status').innerText : "Unknown";
         let ptNode = document.querySelector('.insight-card .in-body');
         let pText = ptNode ? ptNode.innerText : "Please check your dashboard for details.";
-        speak(`Calculation complete. Your readiness score is ${sc} out of 100. Status: ${st}. Top insight: ${pText}`);
-    }, 1200);
+        speak(`Calculation complete. Your readiness score is ${sc} out of 100. Status: ${st}. Top insight: ${pText}. Would you like me to open Google Maps to find your polling station? Say yes or no.`, () => {
+          voiceOfferMaps();
+        });
+    }, 1500);
   });
+}
+
+function voiceOfferMaps() {
+  if (!recognition) return;
+  let answered = false;
+  recognition.onresult = (e) => {
+    answered = true;
+    let res = e.results[0][0].transcript.toLowerCase().trim();
+    if (res.includes('yes') || res.includes('yeah') || res.includes('sure') || res.includes('okay')) {
+      const loc = S.profile.location || S.country;
+      const mapQuery = S.data ? S.data.map_query : 'polling station';
+      openMapsGeo(mapQuery, loc, false);
+      speak('Opening Google Maps to find your polling station. Good luck and happy voting!');
+    } else {
+      speak('No problem. Your complete dashboard is ready. You can scroll down to see your readiness checklist, timeline, and journey steps. Happy voting!');
+    }
+  };
+  recognition.onerror = () => { answered = true; };
+  recognition.onend = () => { if(!answered) { /* silence = no maps */ } };
+  try { recognition.start(); } catch(e) {}
 }
 
 function clickRcVal(groupId, val) {
