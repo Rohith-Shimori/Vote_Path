@@ -155,12 +155,16 @@ body {
 .etype-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .etype-card {
   border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 13px; cursor: pointer; transition: all 0.15s;
+  padding: 13px; cursor: pointer; transition: all 0.25s cubic-bezier(.4,0,.2,1);
   background: var(--bg-raised); user-select: none;
+  display: flex; align-items: center; gap: 12px;
 }
-.etype-card:hover { border-color: var(--blue); }
+.etype-card:hover { border-color: var(--blue); background: rgba(59,130,246,0.04); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.08); }
 .etype-card.sel { border-color: var(--blue); background: var(--blue-glow); }
-.etype-icon { font-size: 1.2rem; margin-bottom: 5px; }
+.etype-icon { font-size: 1.4rem; flex-shrink: 0; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--card-2); border-radius: 8px; transition: all 0.25s; }
+.etype-card:hover .etype-icon { background: rgba(59,130,246,0.1); }
+.etype-card.sel .etype-icon { background: rgba(59,130,246,0.2); }
+.etype-text { flex: 1; }
 .etype-name { font-size: 0.83rem; font-weight: 700; }
 .etype-card.sel .etype-name { color: #93c5fd; }
 .etype-desc { font-size: 0.73rem; color: var(--text-muted); margin-top: 2px; }
@@ -436,6 +440,9 @@ html { font-size: 16px; }
   .etype-grid { grid-template-columns:1fr; gap: 10px; }
   .stat-grid  { grid-template-columns:1fr; gap: 10px; }
   .field-row  { grid-template-columns:1fr; gap: 16px; }
+  .proc-steps { grid-template-columns:1fr; }
+  .help-grid  { grid-template-columns:1fr; }
+  .voice-overlay { flex-direction:column; text-align:center; border-radius:16px; max-width:92%; }
   .radio-group.cols3, .radio-group.cols2 { grid-template-columns:1fr; }
   
   .dash-wrap { padding:14px 12px 50px; }
@@ -456,19 +463,23 @@ html { font-size: 16px; }
 }
 
 /* VOICE ASSIST UI */
-#btn-voice { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; margin-right: 12px; }
-#btn-voice:hover { background: var(--border-soft); }
+#btn-voice { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; gap: 6px; margin-right: 12px; }
+#btn-voice:hover { background: var(--blue-glow); border-color: var(--blue); color: #93c5fd; transform: scale(1.05); }
 #btn-voice.listening { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.4); color: #ef4444; animation: pulseVoice 1.5s infinite; }
 @keyframes pulseVoice { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 70% { box-shadow: 0 0 0 8px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
-.voice-overlay { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(10, 24, 48, 0.9); border: 1px solid rgba(59,130,246,0.3); padding: 15px 30px; border-radius: 30px; z-index: 1000; display: flex; align-items: center; gap: 15px; color: #fff; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+.voice-overlay { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(10, 24, 48, 0.95); border: 1px solid rgba(59,130,246,0.35); padding: 18px 32px; border-radius: 18px; z-index: 1000; display: flex; align-items: center; gap: 18px; color: #fff; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.35s, transform 0.35s; box-shadow: 0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(59,130,246,0.15) inset; backdrop-filter: blur(16px); max-width: 640px; width: 90%; }
 .voice-overlay.active { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(-10px); }
-.voice-wave { display: flex; gap: 4px; align-items: center; }
-.v-bar { width: 4px; height: 12px; background: #3b82f6; border-radius: 2px; animation: voiceWave 0.8s ease-in-out infinite alternate; }
-.v-bar:nth-child(2) { animation-delay: 0.2s; height: 18px; }
-.v-bar:nth-child(3) { animation-delay: 0.4s; height: 10px; }
-.v-bar:nth-child(4) { animation-delay: 0.6s; height: 16px; }
-@keyframes voiceWave { 0% { height: 6px; } 100% { height: 24px; } }
-.voice-text { font-size: 0.95rem; }
+.voice-wave { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
+.v-bar { width: 3px; height: 12px; background: #3b82f6; border-radius: 2px; animation: voiceWave 0.8s ease-in-out infinite alternate; }
+.v-bar:nth-child(2) { animation-delay: 0.15s; height: 20px; }
+.v-bar:nth-child(3) { animation-delay: 0.3s; height: 10px; }
+.v-bar:nth-child(4) { animation-delay: 0.45s; height: 16px; }
+.v-bar:nth-child(5) { animation-delay: 0.6s; height: 14px; }
+@keyframes voiceWave { 0% { height: 5px; } 100% { height: 26px; } }
+.voice-text { font-size: 0.92rem; flex: 1; line-height: 1.5; }
+.voice-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; font-style: italic; }
+.voice-close { background: none; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+.voice-close:hover { border-color: rgba(255,255,255,0.4); color: #fff; background: rgba(255,255,255,0.08); }
 
 /* URGENCY BANNER */
 .urgency-banner { display:none; background:linear-gradient(90deg,rgba(239,68,68,0.12),rgba(245,158,11,0.08)); border-bottom:1px solid rgba(239,68,68,0.3); padding:10px 28px; text-align:center; font-size:0.82rem; font-weight:600; color:#fca5a5; position:fixed; top:58px; left:0; right:0; z-index:99; backdrop-filter:blur(10px); animation:slideDown 0.4s ease; }
@@ -491,13 +502,39 @@ html { font-size: 16px; }
 
 /* PROCESS GUIDE */
 .process-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:26px; margin-bottom:20px; animation:fadeUp 0.45s ease both; animation-delay:0.22s; }
-.proc-steps { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:14px; }
-.proc-step { background:var(--bg-raised); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:16px; position:relative; overflow:hidden; transition:transform 0.2s,box-shadow 0.2s; }
-.proc-step:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(59,130,246,0.08); }
-.proc-step-num { position:absolute; top:8px; right:12px; font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:var(--border); opacity:0.5; }
-.proc-step-icon { font-size:1.3rem; margin-bottom:8px; }
+.proc-steps { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.proc-step { background:var(--bg-raised); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:16px; position:relative; overflow:hidden; transition:all 0.3s cubic-bezier(.4,0,.2,1); display:flex; align-items:flex-start; gap:14px; }
+.proc-step:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.02); }
+.proc-step-num { position:absolute; top:8px; right:12px; font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:var(--border); opacity:0.4; }
+.proc-step-icon { font-size:1.5rem; flex-shrink:0; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--card-2); border-radius:10px; border:1px solid var(--border-soft); transition:all 0.3s; }
+.proc-step:hover .proc-step-icon { background:rgba(59,130,246,0.08); border-color:rgba(59,130,246,0.2); }
+.proc-step-body { flex:1; }
 .proc-step-title { font-size:0.84rem; font-weight:700; margin-bottom:4px; color:var(--text); }
 .proc-step-desc { font-size:0.74rem; color:var(--text-dim); line-height:1.5; }
+
+/* HELP CENTER */
+.help-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:26px; margin-bottom:20px; animation:fadeUp 0.45s ease both; animation-delay:0.26s; }
+.help-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; margin-top:14px; }
+.help-item { background:var(--bg-raised); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:18px; transition:all 0.3s cubic-bezier(.4,0,.2,1); display:flex; gap:14px; align-items:flex-start; }
+.help-item:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.3); }
+.help-icon { font-size:1.5rem; flex-shrink:0; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:rgba(59,130,246,0.06); border-radius:10px; border:1px solid rgba(59,130,246,0.12); }
+.help-item:hover .help-icon { background:rgba(59,130,246,0.12); }
+.help-body { flex:1; }
+.help-title { font-size:0.88rem; font-weight:700; margin-bottom:3px; }
+.help-desc { font-size:0.76rem; color:var(--text-dim); line-height:1.5; margin-bottom:8px; }
+.help-link { display:inline-flex; align-items:center; gap:4px; font-size:0.76rem; font-weight:700; color:var(--blue); text-decoration:none; padding:4px 10px; border-radius:5px; border:1px solid var(--border); background:var(--bg-raised); transition:all 0.2s; }
+.help-link:hover { border-color:var(--blue); background:var(--blue-glow); color:#93c5fd; }
+
+/* FAQ ACCORDION */
+.faq-list { margin-top:14px; }
+.faq-item { border:1px solid var(--border-soft); border-radius:var(--radius-sm); margin-bottom:8px; overflow:hidden; transition:border-color 0.3s; }
+.faq-item:hover { border-color:rgba(59,130,246,0.25); }
+.faq-q { width:100%; background:var(--bg-raised); border:none; color:var(--text); padding:14px 18px; text-align:left; font-family:'Manrope',sans-serif; font-size:0.86rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:background 0.2s; }
+.faq-q:hover { background:rgba(59,130,246,0.04); }
+.faq-q .faq-arrow { transition:transform 0.3s; font-size:0.75rem; color:var(--text-muted); }
+.faq-item.open .faq-q .faq-arrow { transform:rotate(180deg); }
+.faq-a { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.35s ease; padding:0 18px; font-size:0.8rem; color:var(--text-dim); line-height:1.65; }
+.faq-item.open .faq-a { max-height:300px; padding:0 18px 16px; }
 
 /* WHAT IF MODAL */
 .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:500; backdrop-filter:blur(4px); align-items:center; justify-content:center; }
@@ -804,6 +841,18 @@ html { font-size: 16px; }
       <div class="proc-steps" id="proc-steps"></div>
     </div>
 
+    <!-- HELP CENTER & RESOURCES -->
+    <div class="help-card" id="help-card">
+      <div class="sec-title">🆘 Help Center & Official Resources</div>
+      <div class="help-grid" id="help-grid"></div>
+    </div>
+
+    <!-- FREQUENTLY ASKED QUESTIONS -->
+    <div class="help-card" id="faq-card">
+      <div class="sec-title">❓ Frequently Asked Questions</div>
+      <div class="faq-list" id="faq-list"></div>
+    </div>
+
     <!-- ACTION TOOLBAR -->
     <div class="action-toolbar">
       <button class="act-btn" onclick="openDelayModal()">⏱️ What If I Delay?</button>
@@ -830,9 +879,13 @@ html { font-size: 16px; }
 <!-- VOICE ASSIST OVERLAY -->
 <div class="voice-overlay" id="voice-overlay" role="status" aria-live="polite">
   <div class="voice-wave">
-    <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+    <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
   </div>
-  <div class="voice-text" id="voice-text">Listening...</div>
+  <div style="flex:1;">
+    <div class="voice-text" id="voice-text">Listening...</div>
+    <div class="voice-hint" id="voice-hint"></div>
+  </div>
+  <button class="voice-close" onclick="hideVoiceOverlay()" aria-label="Close voice overlay">✕</button>
 </div>
 
 <script>
@@ -909,6 +962,59 @@ const PROCESS_STEPS = {
 };
 
 /* ──────────────────────────────────────────────
+   HELP RESOURCES — Per Country
+─────────────────────────────────────────────── */
+const HELP_RESOURCES = {
+  'United States': [
+    {icon:'\ud83c\udfe2', title:'Official Registration Portal', desc:'Register to vote or check your registration status through the federal portal.', url:'https://vote.gov', label:'Visit vote.gov'},
+    {icon:'\ud83d\udcde', title:'Election Assistance Hotline', desc:'Call 1-866-OUR-VOTE (1-866-687-8683) for non-partisan voter assistance.', url:'https://866ourvote.org', label:'866ourvote.org'},
+    {icon:'\ud83c\udfdb\ufe0f', title:'State Election Offices', desc:'Find your specific state election office for local rules, deadlines, and ballot info.', url:'https://www.nass.org/can-I-vote', label:'NASS Directory'},
+    {icon:'\u2699\ufe0f', title:'Polling Place Locator', desc:'Find your assigned polling station using the official vote.org tool.', url:'https://www.vote.org/polling-place-locator/', label:'Find My Poll'},
+    {icon:'\ud83d\udcda', title:'Voter Education Center', desc:'Learn about candidates, ballot measures, and your rights as a voter.', url:'https://www.usa.gov/voting-and-elections', label:'USA.gov Voting'},
+    {icon:'\u267f', title:'Disability Voting Rights', desc:'ADA protections ensure accessible voting. Request accommodations from your local board.', url:'https://www.eac.gov/voters/voters-with-disabilities', label:'EAC Resources'},
+  ],
+  'India': [
+    {icon:'\ud83c\udfe2', title:'Voter Registration (NVSP)', desc:'National Voter Service Portal for registration, corrections, and voter slip download.', url:'https://voters.eci.gov.in', label:'Visit NVSP'},
+    {icon:'\ud83d\udcde', title:'Voter Helpline', desc:'Call 1950 toll-free or use the cVIGIL app to report violations.', url:'https://eci.gov.in', label:'ECI Website'},
+    {icon:'\ud83d\udcf1', title:'Voter Helpline App', desc:'Download the official ECI app for voter info, polling booth search, and grievances.', url:'https://play.google.com/store/apps/details?id=com.eci.citizen', label:'Get App'},
+    {icon:'\ud83d\udcdd', title:'Forms (6, 7, 8, 8A)', desc:'Submit forms for new registration, objections, corrections, and transposition.', url:'https://voters.eci.gov.in/signup#/signin', label:'Submit Forms'},
+    {icon:'\ud83c\udfdb\ufe0f', title:'State Election Commissions', desc:'Each state has its own commission for local/municipal elections.', url:'https://eci.gov.in/state-election-commission/', label:'Find Your SEC'},
+    {icon:'\u267f', title:'Accessible Voting', desc:'PWD voters can request wheelchairs, braille ballots, and companion assistance.', url:'https://eci.gov.in/pwd/', label:'PWD Info'},
+  ],
+  'United Kingdom': [
+    {icon:'\ud83c\udfe2', title:'Register to Vote', desc:'Register online in 5 minutes. You need your National Insurance number.', url:'https://www.gov.uk/register-to-vote', label:'Register Now'},
+    {icon:'\ud83d\udcde', title:'Electoral Commission', desc:'The independent body overseeing elections and regulating political finance.', url:'https://www.electoralcommission.org.uk', label:'Visit EC'},
+    {icon:'\ud83e\udeaa', title:'Voter ID Requirements', desc:'Photo ID is now mandatory. Get a free Voter Authority Certificate if needed.', url:'https://www.gov.uk/apply-for-photo-id-voter-authority-certificate', label:'Get Free ID'},
+    {icon:'\ud83d\udce7', title:'Postal Vote Application', desc:'Apply for a postal vote if you cannot attend your polling station in person.', url:'https://www.gov.uk/government/publications/apply-for-a-postal-vote', label:'Apply Postal'},
+  ],
+  'Australia': [
+    {icon:'\ud83c\udfe2', title:'Check Enrolment (AEC)', desc:'Verify or update your enrolment details on the AEC website.', url:'https://www.aec.gov.au/enrol/', label:'Check Now'},
+    {icon:'\ud83d\udcde', title:'AEC Helpline', desc:'Call 13 23 26 for general enrolment and voting enquiries.', url:'https://www.aec.gov.au/About_AEC/contact.htm', label:'Contact AEC'},
+    {icon:'\u26a0\ufe0f', title:'Compulsory Voting Info', desc:'Voting is mandatory. Understand your obligations and valid excuses.', url:'https://www.aec.gov.au/faqs/voting_australia.htm', label:'Learn More'},
+    {icon:'\ud83d\udcc5', title:'Early & Postal Voting', desc:'Vote early in person or apply for a postal vote if you cannot attend on the day.', url:'https://www.aec.gov.au/voting/ways_to_vote/', label:'Voting Options'},
+  ],
+  '_default': [
+    {icon:'\ud83c\udf10', title:'International IDEA', desc:'The International Institute for Democracy and Electoral Assistance provides global resources.', url:'https://www.idea.int', label:'Visit IDEA'},
+    {icon:'\ud83d\udcda', title:'Election Guide', desc:'Worldwide election calendar, results, and information from IFES.', url:'https://www.electionguide.org', label:'Election Guide'},
+    {icon:'\ud83d\udce2', title:'Contact Your Commission', desc:'Reach out to your national or regional electoral commission for specific help.', url:'#', label:'Find Commission'},
+  ]
+};
+
+/* ──────────────────────────────────────────────
+   FAQ — Common voter questions
+─────────────────────────────────────────────── */
+const FAQ_DATA = [
+  {q:'What documents do I need to vote?', a:'Requirements vary by country. Generally, you need a government-issued photo ID such as a passport, driver\u2019s license, or dedicated voter ID card. Some countries accept non-photo IDs. Check the Help Center links above for your country\u2019s specific requirements.'},
+  {q:'Can I vote if I have recently moved?', a:'In most countries, you need to update your voter registration to reflect your new address. Some countries offer same-day registration (e.g., USA, Canada) while others require updating well in advance. Contact your local election office.'},
+  {q:'What if I cannot go to the polling station on Election Day?', a:'Many countries offer early voting, postal/mail-in voting, or proxy voting. Check with your electoral commission for deadlines and procedures. Apply for absentee voting as early as possible.'},
+  {q:'How do I know if I am registered to vote?', a:'Visit your country\u2019s official voter registration website (listed in the Help Center above). You can also call the voter helpline or visit your local election office to verify.'},
+  {q:'What happens if I miss the registration deadline?', a:'If you miss the deadline, you generally cannot vote in that election. However, some countries allow same-day or late registration at the polling station. Check your country\u2019s rules.'},
+  {q:'Is my vote secret?', a:'Yes. In virtually all democratic elections worldwide, your vote is secret. Ballot design, counting procedures, and polling booth layouts are all designed to protect voter privacy.'},
+  {q:'Can I bring someone to help me at the polling station?', a:'In most countries, voters with disabilities or literacy challenges can bring a companion or request assistance from election officials. Inform the poll workers upon arrival.'},
+  {q:'How are election results verified?', a:'Results go through official counting, verification by election officials, and usually a certification period. Many countries allow observers and recounts to ensure accuracy.'},
+];
+
+/* ──────────────────────────────────────────────
    STATE
 ─────────────────────────────────────────────── */
 const S = { country:'', electionType:'', profile:{}, data:null, result:null };
@@ -923,8 +1029,10 @@ function renderElectionTypes() {
     grid.innerHTML += `
       <div class="etype-card" data-id="${t.id}" onclick="selectEtype(this)" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectEtype(this)}">
         <div class="etype-icon">${t.icon}</div>
-        <div class="etype-name">${t.name}</div>
-        <div class="etype-desc">${t.desc}</div>
+        <div class="etype-text">
+          <div class="etype-name">${t.name}</div>
+          <div class="etype-desc">${t.desc}</div>
+        </div>
       </div>`;
   });
 }
@@ -1433,6 +1541,8 @@ function renderDashboard() {
   renderEmbeddedMap(data.map_query, loc);
   renderProcessGuide(S.country);
   renderUrgencyBanner(result, data);
+  renderHelpCenter(S.country);
+  renderFAQ();
 }
 
 function openMapsGeo(mapQuery, locationFallback, useGPS) {
@@ -1598,9 +1708,48 @@ function renderProcessGuide(country) {
     <div class="proc-step">
       <div class="proc-step-num">${i+1}</div>
       <div class="proc-step-icon">${s.icon}</div>
-      <div class="proc-step-title">${s.title}</div>
-      <div class="proc-step-desc">${s.desc}</div>
+      <div class="proc-step-body">
+        <div class="proc-step-title">${s.title}</div>
+        <div class="proc-step-desc">${s.desc}</div>
+      </div>
     </div>`).join('');
+}
+
+/* ──────────────────────────────────────────────
+   HELP CENTER RENDERER
+─────────────────────────────────────────────── */
+function renderHelpCenter(country) {
+  const items = HELP_RESOURCES[country] || HELP_RESOURCES['_default'];
+  document.getElementById('help-grid').innerHTML = items.map(h => `
+    <div class="help-item">
+      <div class="help-icon">${h.icon}</div>
+      <div class="help-body">
+        <div class="help-title">${h.title}</div>
+        <div class="help-desc">${h.desc}</div>
+        <a class="help-link" href="${h.url}" target="_blank" rel="noopener noreferrer">${h.label} \u2197</a>
+      </div>
+    </div>`).join('');
+}
+
+/* ──────────────────────────────────────────────
+   FAQ RENDERER
+─────────────────────────────────────────────── */
+function renderFAQ() {
+  document.getElementById('faq-list').innerHTML = FAQ_DATA.map((f,i) => `
+    <div class="faq-item" id="faq-${i}">
+      <button class="faq-q" onclick="toggleFaq(${i})" aria-expanded="false">
+        ${f.q}
+        <span class="faq-arrow">\u25bc</span>
+      </button>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+function toggleFaq(i) {
+  const item = document.getElementById('faq-'+i);
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+  item.querySelector('.faq-q').setAttribute('aria-expanded', !isOpen);
 }
 
 /* ──────────────────────────────────────────────
@@ -1747,16 +1896,22 @@ function stopVoice() {
   listenContext = null;
   if(recognition) recognition.stop();
   if(window.speechSynthesis) window.speechSynthesis.cancel();
-  const ov = document.getElementById('voice-overlay');
-  if(ov) ov.classList.remove('active');
+  hideVoiceOverlay();
   const btn = document.getElementById('btn-voice');
   if(btn) btn.classList.remove('listening');
+}
+
+function hideVoiceOverlay() {
+  const ov = document.getElementById('voice-overlay');
+  if(ov) ov.classList.remove('active');
+  document.getElementById('voice-hint').textContent = '';
 }
 
 function listenFor(promptText, stateNum, processCallback) {
   voiceState = stateNum;
   listenContext = { promptText, stateNum, processCallback };
   document.getElementById('voice-text').innerText = promptText;
+  document.getElementById('voice-hint').textContent = 'Say "cancel" to stop  ·  Press V to restart';
   
   speak(promptText, () => {
     if (!recognition) {
@@ -1916,35 +2071,91 @@ function askLocation() {
     goPhase3();
     
     setTimeout(() => {
-        stopVoice();
-        let sc = document.getElementById('score-val') ? document.getElementById('score-val').innerText : "0";
-        let st = document.getElementById('score-status') ? document.getElementById('score-status').innerText : "Unknown";
-        let ptNode = document.querySelector('.insight-card .in-body');
-        let pText = ptNode ? ptNode.innerText : "Please check your dashboard for details.";
-        speak(`Calculation complete. Your readiness score is ${sc} out of 100. Status: ${st}. Top insight: ${pText}. Would you like me to open Google Maps to find your polling station? Say yes or no.`, () => {
-          voiceOfferMaps();
+        const sc = document.getElementById('score-val') ? document.getElementById('score-val').innerText : '0';
+        const st = document.getElementById('score-status') ? document.getElementById('score-status').innerText : 'Unknown';
+        const ptNode = document.querySelector('.insight-card .in-body');
+        const pText = ptNode ? ptNode.innerText : 'Check your dashboard for details.';
+        const country = S.country || 'your country';
+        const data = S.data;
+        let summary = `Calculation complete. Your readiness score is ${sc} out of 100. Status: ${st}. `;
+        if (data) {
+          summary += `The election in ${country} is on ${fmtDate(data.election_date)}. Registration deadline is ${fmtDate(data.registration_deadline)}. `;
+          summary += `Required ID: ${data.id_requirements}. Poll hours: ${data.poll_time}. `;
+        }
+        summary += `Top insight: ${pText}. `;
+        summary += `Your dashboard includes a readiness checklist, election timeline, voting process guide, help center with official links, and frequently asked questions. `;
+        summary += `You can now say: open maps, read help, read score, read F A Q, or just say done to finish.`;
+        document.getElementById('voice-overlay').classList.add('active');
+        document.getElementById('voice-text').innerText = 'Dashboard ready. Listening for commands...';
+        document.getElementById('voice-hint').textContent = 'Say: "open maps" · "read help" · "read FAQ" · "read score" · "done"';
+        speak(summary, () => {
+          voiceCommandLoop();
         });
     }, 1500);
   });
 }
 
-function voiceOfferMaps() {
+/* ──────────────────────────────────────────────
+   VOICE COMMAND LOOP — Post-dashboard
+   Allows continuous voice interaction
+─────────────────────────────────────────────── */
+function voiceCommandLoop() {
   if (!recognition) return;
   let answered = false;
+  const btn = document.getElementById('btn-voice');
+  if(btn) btn.classList.add('listening');
+
   recognition.onresult = (e) => {
     answered = true;
-    let res = e.results[0][0].transcript.toLowerCase().trim();
-    if (res.includes('yes') || res.includes('yeah') || res.includes('sure') || res.includes('okay')) {
+    const res = e.results[0][0].transcript.toLowerCase().trim();
+    
+    if (res.includes('map') || res.includes('polling') || res.includes('station') || res.includes('navigate')) {
       const loc = S.profile.location || S.country;
       const mapQuery = S.data ? S.data.map_query : 'polling station';
       openMapsGeo(mapQuery, loc, false);
-      speak('Opening Google Maps to find your polling station. Good luck and happy voting!');
-    } else {
-      speak('No problem. Your complete dashboard is ready. You can scroll down to see your readiness checklist, timeline, and journey steps. Happy voting!');
+      speak('Opening Google Maps to find your polling station. You can use Google Maps voice navigation from there. Good luck!', () => { voiceCommandLoop(); });
+    }
+    else if (res.includes('help') || res.includes('resource') || res.includes('support') || res.includes('contact')) {
+      const helpItems = HELP_RESOURCES[S.country] || HELP_RESOURCES['_default'];
+      const helpText = helpItems.slice(0,3).map(h => h.title + ': ' + h.desc).join('. ');
+      speak('Here are key resources for ' + S.country + '. ' + helpText + '. These links are on your dashboard in the Help Center section. Say another command or say done.', () => { voiceCommandLoop(); });
+    }
+    else if (res.includes('faq') || res.includes('question') || res.includes('ask')) {
+      const faqText = FAQ_DATA.slice(0,3).map(f => f.q + ' Answer: ' + f.a).join('. Next question: ');
+      speak('Here are common questions. ' + faqText + '. More questions are on your dashboard. Say another command or done.', () => { voiceCommandLoop(); });
+    }
+    else if (res.includes('score') || res.includes('readiness') || res.includes('breakdown')) {
+      const sc = document.getElementById('score-val') ? document.getElementById('score-val').innerText : '0';
+      const st = document.getElementById('score-status') ? document.getElementById('score-status').innerText : 'Unknown';
+      const done = S.result ? S.result.done.join(', ') : '';
+      const missing = S.result ? S.result.missing.join(', ') : '';
+      let msg = `Your score is ${sc} out of 100, status ${st}. Completed: ${done}. `;
+      if (missing) msg += `Still needed: ${missing}. `;
+      speak(msg + 'Say another command or done.', () => { voiceCommandLoop(); });
+    }
+    else if (res.includes('repeat') || res.includes('again')) {
+      const sc = document.getElementById('score-val') ? document.getElementById('score-val').innerText : '0';
+      speak(`Your readiness score is ${sc} out of 100. Available commands: open maps, read help, read FAQ, read score, or done.`, () => { voiceCommandLoop(); });
+    }
+    else if (res.includes('done') || res.includes('stop') || res.includes('cancel') || res.includes('quit') || res.includes('close') || res.includes('finish')) {
+      speak('Voice navigator closed. You can press V anytime to restart. Happy voting!', () => { stopVoice(); });
+    }
+    else {
+      speak('I can help with: open maps, read help, read FAQ, read score, or say done to finish.', () => { voiceCommandLoop(); });
     }
   };
-  recognition.onerror = () => { answered = true; };
-  recognition.onend = () => { if(!answered) { /* silence = no maps */ } };
+
+  recognition.onerror = (e) => {
+    answered = true;
+    if (e.error === 'no-speech' || e.error === 'aborted') {
+      setTimeout(() => { try { recognition.start(); } catch(err){} }, 500);
+    }
+  };
+  recognition.onend = () => {
+    if (!answered) {
+      setTimeout(() => { try { recognition.start(); } catch(err){} }, 500);
+    }
+  };
   try { recognition.start(); } catch(e) {}
 }
 
