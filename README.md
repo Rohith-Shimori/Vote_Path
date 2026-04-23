@@ -41,7 +41,8 @@ VotePath Pro+ guides any citizen through the complete election process for **19 
 ```
 votepath-pro/
 ├── index.html          ← Entire application (HTML + CSS + JS)
-├── elections-data.json ← Repository data source (hybrid pipeline)
+├── data/
+│   └── elections.json  ← Repository data source (hybrid pipeline)
 └── README.md           ← This file
 ```
 
@@ -85,7 +86,7 @@ otherwise                         → LOW
 Demonstrates real-world resilience: tries to load live/updated data first, falls back gracefully.
 
 ```
-Step 1: fetch('./elections-data.json')  ← Repository source (shown as "REPOSITORY DATA")
+Step 1: fetch('./data/elections.json')  ← Repository source (shown as "REPOSITORY DATA")
          ↓ if fails (timeout / CORS / missing)
 Step 2: Use embedded ELECTION_DB object  ← (shown as "EMBEDDED DATA")
          ↓ in both cases
@@ -134,13 +135,13 @@ Builds a visual, stateful step-path: each step is either `done`, `current`, or `
 No build step. No npm. No server required.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/votepath-pro.git
-cd votepath-pro
+git clone https://github.com/Rohith-Shimori/Vote_Path.git
+cd Vote_Path
 open index.html    # macOS
 # or: double-click index.html in your file explorer
 ```
 
-For the hybrid data pipeline to load `elections-data.json` as "REPOSITORY DATA", serve via a local server:
+For the hybrid data pipeline to load `data/elections.json` as "REPOSITORY DATA", serve via a local server:
 
 ```bash
 python3 -m http.server 8080
@@ -166,8 +167,22 @@ Without a server (file:// protocol), the app falls back to embedded data automat
 - Semantic HTML5 structure throughout
 - WCAG AA-compliant contrast ratios on all text
 - Fully keyboard-navigable (Tab + Enter flow)
+- All interactive custom elements have `role`, `tabindex`, and `aria-checked` attributes
+- Skip-to-content link for screen reader users
 - Responsive layout for mobile, tablet, and desktop
-- Screen-reader friendly labels and structure
+- Screen-reader friendly labels (`aria-label` on all inputs)
+
+### 🎙️ Voice Accessible Navigator (V.A.N.)
+
+A native, dependency-free voice assistant built with the Web Speech API:
+
+- **Auto-offer on page load**: The app speaks a welcome message and instructs users to press **V** to start voice navigation
+- **Keyboard shortcut**: Press **V** anytime (when not typing) to activate the voice wizard
+- **Full wizard flow**: Country → Election Type → Age → Registration → Voter ID → Polling Station → Location
+- **Readout**: After completion, the assistant reads the readiness score, status, and top insight aloud
+- **Cancel anytime**: Say "cancel", "stop", or "quit" to exit
+- **Browser support**: Chrome, Edge, Safari (voice input). Firefox (voice output only)
+- **Zero external dependencies**: Uses only `speechSynthesis` and `SpeechRecognition` browser APIs
 
 ---
 
@@ -199,9 +214,10 @@ General Election · Presidential · State/Provincial · Local/Municipal · Refer
 ## Assumptions
 
 1. Election dates are approximate/representative for demonstration — users should verify with their official electoral commission
-2. The hybrid pipeline's "live" source is the repo's `elections-data.json` — this is intentional for a static deployment
+2. The hybrid pipeline's "live" source is the repo's `data/elections.json` — this is intentional for a static deployment
 3. Readiness score is a civic guidance tool, not a legal determination of eligibility
 4. Google Maps results depend on query quality and regional data availability
+5. Voice navigation requires a Chromium-based browser (Chrome/Edge) for bidirectional interaction
 
 ---
 

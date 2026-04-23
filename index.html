@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="VotePath Pro+ is a deterministic election navigator that helps citizens understand the voting process, timelines, and steps for 19 countries. Built for Hack2Skill Prompt Wars Challenge 2." />
 <title>VotePath Pro+ · Intelligent Election Navigator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -472,8 +473,11 @@ html { font-size: 16px; }
 </head>
 <body>
 
+<!-- Skip to content for screen readers -->
+<a href="#phase1" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--blue);color:#fff;padding:8px 16px;z-index:200;font-size:0.85rem;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
+
 <!-- ── HEADER ── -->
-<header class="app-header">
+<header class="app-header" role="banner">
   <div class="brand">
     <div class="brand-name">Vote<em>Path</em> Pro+</div>
     <div class="brand-tag">v2.0</div>
@@ -501,7 +505,7 @@ html { font-size: 16px; }
 
     <div class="field">
       <label>Country</label>
-      <select id="sel-country">
+      <select id="sel-country" aria-label="Select your country">
         <option value="">— Select your country —</option>
         <option>United States</option>
         <option>India</option>
@@ -551,43 +555,43 @@ html { font-size: 16px; }
     <div class="field-row">
       <div class="field">
         <label>Your Name (optional)</label>
-        <input type="text" id="inp-name" placeholder="e.g. Sarah" />
+        <input type="text" id="inp-name" placeholder="e.g. Sarah" aria-label="Your name" />
       </div>
       <div class="field">
         <label>Age</label>
-        <input type="number" id="inp-age" placeholder="e.g. 24" min="1" max="120" />
+        <input type="number" id="inp-age" placeholder="e.g. 24" min="1" max="120" aria-label="Your age" />
       </div>
     </div>
 
     <div class="field">
       <label>Are you registered to vote?</label>
       <div class="radio-group cols3" id="rg-registered">
-        <div class="rc" data-val="yes"    onclick="selectRC(this,'rg-registered')"><div class="rc-dot"></div>Yes</div>
-        <div class="rc" data-val="no"     onclick="selectRC(this,'rg-registered')"><div class="rc-dot"></div>No</div>
-        <div class="rc" data-val="unsure" onclick="selectRC(this,'rg-registered')"><div class="rc-dot"></div>Not Sure</div>
+        <div class="rc" data-val="yes"    onclick="selectRC(this,'rg-registered')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-registered')}"><div class="rc-dot"></div>Yes</div>
+        <div class="rc" data-val="no"     onclick="selectRC(this,'rg-registered')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-registered')}"><div class="rc-dot"></div>No</div>
+        <div class="rc" data-val="unsure" onclick="selectRC(this,'rg-registered')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-registered')}"><div class="rc-dot"></div>Not Sure</div>
       </div>
     </div>
 
     <div class="field">
       <label>Do you have a Voter ID / Official ID?</label>
       <div class="radio-group cols3" id="rg-voterid">
-        <div class="rc" data-val="yes"     onclick="selectRC(this,'rg-voterid')"><div class="rc-dot"></div>Yes</div>
-        <div class="rc" data-val="no"      onclick="selectRC(this,'rg-voterid')"><div class="rc-dot"></div>No</div>
-        <div class="rc" data-val="applied" onclick="selectRC(this,'rg-voterid')"><div class="rc-dot"></div>Applied</div>
+        <div class="rc" data-val="yes"     onclick="selectRC(this,'rg-voterid')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-voterid')}"><div class="rc-dot"></div>Yes</div>
+        <div class="rc" data-val="no"      onclick="selectRC(this,'rg-voterid')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-voterid')}"><div class="rc-dot"></div>No</div>
+        <div class="rc" data-val="applied" onclick="selectRC(this,'rg-voterid')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-voterid')}"><div class="rc-dot"></div>Applied</div>
       </div>
     </div>
 
     <div class="field">
       <label>Do you know your polling station?</label>
       <div class="radio-group cols2" id="rg-station">
-        <div class="rc" data-val="yes" onclick="selectRC(this,'rg-station')"><div class="rc-dot"></div>Yes, I know it</div>
-        <div class="rc" data-val="no"  onclick="selectRC(this,'rg-station')"><div class="rc-dot"></div>No, need to find it</div>
+        <div class="rc" data-val="yes" onclick="selectRC(this,'rg-station')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-station')}"><div class="rc-dot"></div>Yes, I know it</div>
+        <div class="rc" data-val="no"  onclick="selectRC(this,'rg-station')" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRC(this,'rg-station')}"><div class="rc-dot"></div>No, need to find it</div>
       </div>
     </div>
 
     <div class="field">
       <label>City / Area (for map search)</label>
-      <input type="text" id="inp-location" placeholder="e.g. Chicago, IL" />
+      <input type="text" id="inp-location" placeholder="e.g. Chicago, IL" aria-label="City or area for map search" />
     </div>
 
     <button class="btn-primary" onclick="goPhase3()">Generate My VotePath →</button>
@@ -744,15 +748,33 @@ const S = { country:'', electionType:'', profile:{}, data:null, result:null };
 /* ──────────────────────────────────────────────
    INIT
 ─────────────────────────────────────────────── */
-window.onload = () => {
+function renderElectionTypes() {
   const grid = document.getElementById('etype-grid');
+  grid.innerHTML = '';
   ELECTION_TYPES.forEach(t => {
     grid.innerHTML += `
-      <div class="etype-card" data-id="${t.id}" onclick="selectEtype(this)">
+      <div class="etype-card" data-id="${t.id}" onclick="selectEtype(this)" role="radio" tabindex="0" aria-checked="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectEtype(this)}">
         <div class="etype-icon">${t.icon}</div>
         <div class="etype-name">${t.name}</div>
         <div class="etype-desc">${t.desc}</div>
       </div>`;
+  });
+}
+
+window.onload = () => {
+  renderElectionTypes();
+  // Auto-offer voice assistant after 2 seconds for visually impaired users
+  setTimeout(() => {
+    if (window.speechSynthesis && (window.SpeechRecognition || window.webkitSpeechRecognition)) {
+      speak('Welcome to Vote Path Pro Plus. If you would like voice guided navigation, press the V key on your keyboard, or click the Voice Assist button in the top right corner.', null);
+    }
+  }, 2000);
+  // Global keyboard shortcut: press V to start voice navigator
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'v' || e.key === 'V') {
+      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'TEXTAREA')) return;
+      startVoiceNavigator();
+    }
   });
 };
 
@@ -766,14 +788,16 @@ function showPhase(n) {
 }
 
 function selectEtype(el) {
-  document.querySelectorAll('.etype-card').forEach(c => c.classList.remove('sel'));
+  document.querySelectorAll('.etype-card').forEach(c => { c.classList.remove('sel'); c.setAttribute('aria-checked','false'); });
   el.classList.add('sel');
+  el.setAttribute('aria-checked','true');
   S.electionType = el.dataset.id;
 }
 
 function selectRC(el, groupId) {
-  document.querySelectorAll('#'+groupId+' .rc').forEach(c => c.classList.remove('sel'));
+  document.querySelectorAll('#'+groupId+' .rc').forEach(c => { c.classList.remove('sel'); c.setAttribute('aria-checked','false'); });
   el.classList.add('sel');
+  el.setAttribute('aria-checked','true');
 }
 
 function getRC(groupId) {
@@ -839,7 +863,7 @@ function restart() {
 ─────────────────────────────────────────────── */
 async function loadElectionData(country) {
   try {
-    const res = await fetch('./elections-data.json', { signal: AbortSignal.timeout(2500) });
+    const res = await fetch('./data/elections.json', { signal: AbortSignal.timeout(2500) });
     if (res.ok) {
       const json = await res.json();
       if (json[country]) {
@@ -1532,9 +1556,9 @@ function askLocation() {
     
     setTimeout(() => {
         stopVoice();
-        let sc = document.getElementById('sc-val') ? document.getElementById('sc-val').innerText : "0";
-        let st = document.getElementById('sc-label') ? document.getElementById('sc-label').innerText : "Unknown";
-        let ptNode = document.querySelector('.insight-card p');
+        let sc = document.getElementById('score-val') ? document.getElementById('score-val').innerText : "0";
+        let st = document.getElementById('score-status') ? document.getElementById('score-status').innerText : "Unknown";
+        let ptNode = document.querySelector('.insight-card .in-body');
         let pText = ptNode ? ptNode.innerText : "Please check your dashboard for details.";
         speak(`Calculation complete. Your readiness score is ${sc} out of 100. Status: ${st}. Top insight: ${pText}`);
     }, 1200);
